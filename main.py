@@ -10,6 +10,7 @@ from models.response import Response
 # Import routers
 from routes.forms import router as forms_router
 from routes.questions import router as questions_router
+from routes.users import router as users_router
 
 app = FastAPI(
     title="Form Backend API",
@@ -36,3 +37,4 @@ def health_check():
 # Register routers
 app.include_router(forms_router)
 app.include_router(questions_router)
+app.include_router(users_router)
