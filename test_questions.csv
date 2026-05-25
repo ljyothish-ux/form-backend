@@ -1,0 +1,7 @@
+question_text,type,options
+What is your name?,text,
+Rate our service from 1-5,rating,1|2|3|4|5
+Which product did you use?,dropdown,Product A|Product B|Product C
+Would you recommend us?,radio,Yes|No|Maybe
+Any additional feedback?,text,
+How did you hear about us?,checkbox,Google|Friend|Social Media|Advertisement
