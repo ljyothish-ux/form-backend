@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from database import engine, Base
 
-# Import all models so SQLAlchemy knows about them
+# Import models
 from models.form import Form
 from models.question import Question
 from models.user import User
 from models.response import Response
+
+# Import routers
+from routes.forms import router as forms_router
 
 app = FastAPI(
     title="Form Backend API",
@@ -13,11 +16,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# This creates all tables in form_app.db on startup
 @app.on_event("startup")
 def create_tables():
     Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created successfully")
+    print("✅ Database tables ready")
 
 @app.get("/")
 def root():
@@ -29,3 +31,6 @@ def health_check():
         "status": "healthy",
         "version": "1.0.0"
     }
+
+# Register routers
+app.include_router(forms_router)
