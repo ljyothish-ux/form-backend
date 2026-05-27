@@ -5,7 +5,8 @@ from database import Base
 class Form(Base):
     __tablename__ = "forms"
 
-    id         = Column(Integer, primary_key=True, index=True)
-    title      = Column(String, nullable=False)
-    description= Column(String, nullable=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    id          = Column(Integer, primary_key=True, index=True)
+    title       = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    location    = Column(String, nullable=True)   # ← new
+    created_at  = Column(DateTime(timezone=True), server_default=func.now())

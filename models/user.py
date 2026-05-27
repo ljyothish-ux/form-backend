@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.sql import func
 from database import Base
 
 class User(Base):
     __tablename__ = "users"
 
-    id         = Column(Integer, primary_key=True, index=True)
-    name       = Column(String, nullable=False)
-    phone      = Column(String, unique=True, nullable=False)  # unique → no duplicates
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    id          = Column(Integer, primary_key=True, index=True)
+    name        = Column(String, nullable=False)
+    phone       = Column(String, unique=True, nullable=False)
+    is_verified = Column(Boolean, default=False)     # ← new column
+    created_at  = Column(DateTime(timezone=True), server_default=func.now())
