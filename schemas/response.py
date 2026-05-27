@@ -12,6 +12,7 @@ class AnswerItem(BaseModel):
 # What frontend sends when submitting the form
 class SubmitResponse(BaseModel):
     user_id:  int
+    session_id: Optional[int] = None
     answers:  List[AnswerItem]
 
 

@@ -23,25 +23,21 @@ router = APIRouter(
 # ─────────────────────────────────────────
 @router.post("/{form_id}/responses")
 def submit_responses(
-    form_id:  int,
-    data:     SubmitResponse,
-    db:       Session = Depends(get_db)
+    form_id: int,
+    data:    SubmitResponse,
+    db:      Session = Depends(get_db)
 ):
-    # Check form exists
     form = db.query(Form).filter(Form.id == form_id).first()
     if not form:
         raise HTTPException(status_code=404, detail="Form not found")
 
-    # Check user exists
     user = db.query(User).filter(User.id == data.user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Check answers list is not empty
     if not data.answers:
         raise HTTPException(status_code=400, detail="No answers provided")
 
-    # Validate every question_id belongs to this form
     valid_question_ids = set(
         q.id for q in db.query(Question)
         .filter(Question.form_id == form_id)
@@ -55,13 +51,13 @@ def submit_responses(
                 detail=f"Question {answer_item.question_id} does not belong to form {form_id}"
             )
 
-    # Save each answer as a separate row
     saved_count = 0
     for answer_item in data.answers:
         new_response = Response(
             form_id=form_id,
             user_id=data.user_id,
             question_id=answer_item.question_id,
+            session_id=data.session_id,        # ← new
             answer=answer_item.answer
         )
         db.add(new_response)
@@ -70,12 +66,12 @@ def submit_responses(
     db.commit()
 
     return {
-        "message": f"Successfully submitted {saved_count} answers",
-        "form_id": form_id,
-        "user_id": data.user_id,
+        "message":      f"Successfully submitted {saved_count} answers",
+        "form_id":      form_id,
+        "user_id":      data.user_id,
+        "session_id":   data.session_id,
         "answers_saved": saved_count
     }
-
 
 # ─────────────────────────────────────────
 # GET /forms/{form_id}/responses
