@@ -10,7 +10,7 @@ from models.user import User
 from models.response import Response
 from models.otp_verification import OTPVerification
 from models.scan import Scan
-from models.form_session import FormSession                # ← new
+from models.form_session import FormSession
 
 # Import all routers
 from routes.forms import router as forms_router
@@ -20,7 +20,8 @@ from routes.responses import router as responses_router
 from routes.qr import router as qr_router
 from routes.otp import router as otp_router
 from routes.scans import router as scans_router
-from routes.sessions import router as sessions_router      # ← new
+from routes.sessions import router as sessions_router
+from routes.dashboard import router as dashboard_router    # ← new
 
 
 @asynccontextmanager
@@ -61,4 +62,5 @@ app.include_router(responses_router)
 app.include_router(qr_router)
 app.include_router(otp_router)
 app.include_router(scans_router)
-app.include_router(sessions_router)                        # ← new
+app.include_router(sessions_router)
+app.include_router(dashboard_router)                       # ← new
